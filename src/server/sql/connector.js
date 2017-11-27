@@ -1,4 +1,5 @@
-import knex from 'knex'
-import { development, production } from '../../../knexfile' // eslint-disable-line import/named
+import knex from 'knex';
+import * as environments from '../../../knexdata';
 
-export default knex(__DEV__ ? development : production);
+// eslint-disable-next-line import/namespace
+export default knex(environments[process.env.NODE_ENV]);

@@ -1,9 +1,13 @@
-import log from '../log'
-import './api_server'
+import log from '../common/log';
+import './server';
 
-process.on('uncaughtException', (ex) => {
+process.on('uncaughtException', ex => {
   log.error(ex);
   process.exit(1);
+});
+
+process.on('unhandledRejection', reason => {
+  log.error(reason);
 });
 
 if (module.hot) {
@@ -17,4 +21,3 @@ if (module.hot) {
 
   module.hot.accept();
 }
-

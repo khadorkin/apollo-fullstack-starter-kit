@@ -1,39 +1,15 @@
-import { makeExecutableSchema, addErrorLoggingToSchema } from 'graphql-tools'
-import { PubSub } from 'graphql-subscriptions'
+import { makeExecutableSchema, addErrorLoggingToSchema } from 'graphql-tools';
 
-import log from '../../log'
-import schema from './schema_def.graphqls'
-
-export const pubsub = new PubSub();
-
-const resolvers = {
-  Query: {
-    count(ignored1, ignored2, context) {
-      return context.Count.getCount();
-    },
-  },
-  Mutation: {
-    addCount(_, { amount }, context) {
-      return context.Count.addCount(amount)
-        .then(() => context.Count.getCount())
-        .then(count => {
-          pubsub.publish('countUpdated', count);
-          return count;
-        });
-    },
-  },
-  Subscription: {
-    countUpdated(amount) {
-      return amount;
-    }
-  }
-};
+import rootSchemaDef from './rootSchema.graphqls';
+import modules from '../modules';
+import pubsub from './pubsub';
+import log from '../../common/log';
 
 const executableSchema = makeExecutableSchema({
-  typeDefs: schema,
-  resolvers,
+  typeDefs: [rootSchemaDef].concat(modules.schemas),
+  resolvers: modules.createResolvers(pubsub)
 });
 
-addErrorLoggingToSchema(executableSchema, { log: (e) => log.error(e) });
+addErrorLoggingToSchema(executableSchema, { log: e => log.error(e) });
 
 export default executableSchema;

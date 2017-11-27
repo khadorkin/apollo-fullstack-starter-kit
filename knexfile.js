@@ -1,35 +1,6 @@
-const isBabel = !(class {}.toString().indexOf('class ') === 0);
-if (!isBabel) {
-  require('babel-register');
-}
+/* eslint import/no-extraneous-dependencies: 0 */
+require('babel-register')({ presets: ['env'] });
+require('babel-polyfill');
+const config = require('./knexdata');
 
-module.exports = {
-  development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './dev-db.sqlite3'
-    },
-    seeds: {
-      directory: './src/database/seeds'
-    },
-    migrations: {
-      directory: './src/database/migrations'
-    },
-    useNullAsDefault: true
-  },
-  production: {
-    client: 'sqlite3',
-    connection: {
-      filename: './prod-db.sqlite3'
-    },
-    seeds: {
-      directory: './src/database/seeds'
-    },
-    migrations: {
-      directory: './src/database/migrations'
-    },
-    useNullAsDefault: true
-  },
-
-
-};
+module.exports = config;
