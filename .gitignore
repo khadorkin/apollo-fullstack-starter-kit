@@ -1,13 +1,17 @@
-.idea
+/.idea
+/.history
 /.vscode
-/.tmp
-/.vscode
-/node_modules
-/build
-npm-debug.*
-.expo/
+/.cache
+.tmp
+node_modules
+build
+.gqlconfig
+.expo
+*.log
 *.sqlite3
 .DS_Store
 jsconfig.json
-/upload
-# .env 
+public
+*.iml
+.npmrc
+swagger.yml

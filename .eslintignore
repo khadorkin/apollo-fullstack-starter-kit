@@ -1,2 +1,4 @@
-flow-typed/*
+**/node_modules/*
+**/.tmp/*
+**/build/*
 tools/templates/*
